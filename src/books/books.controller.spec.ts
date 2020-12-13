@@ -1,18 +1,27 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { BooksController } from './books.controller';
+import BookEntity from '../db/entity/book.entity';
+import CreateBookDto from './dto/create-book.dto';
+import UserEntity from '../db/entity/user.entity';
+import { createQueryBuilder, getConnection } from 'typeorm';
+import GenreEntity from '../db/entity/genre.entity';
 
-describe('BooksController', () => {
-  let controller: BooksController;
+export class BooksService {
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [BooksController],
-    }).compile();
-
-    controller = module.get<BooksController>(BooksController);
-  });
-
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
-});
+  async insert(bookDetails: CreateBookDto): Promise<BookEntity> {
+    const { name , userID , genreIDs } = bookDetails;
+    const book = new BookEntity();
+    book.name = name;
+    book.user = await UserEntity.findOne(userID) ;
+    book.genres=[];
+    for ( let i = 0; i < genreIDs.length ; i++)
+    {
+             const genre = await GenreEntity.findOne(genreIDs[i]);
+             book.genres.push(genre);
+    }
+    await book.save();
+    return book;
+  }
+  async getAllBooks(): Promise<BookEntity[] > {
+    // const user: UserEntity = await UserEntity.findOne({where: {id: 2}, relations: ['books']});
+    return BookEntity.find();
+  }
+}
