@@ -8,7 +8,7 @@ export default class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiResponseProperty()
+  @ApiResponseProperty({type: () => [BookEntity]})
   @OneToMany( type => BookEntity , book => book.user)
   books: BookEntity[];
 

@@ -6,10 +6,13 @@ import { from } from 'rxjs';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const options = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('DB LAB6 example')
+    .setDescription('DB LAB6 API description')
     .setVersion('1.0')
-    .addTag('cats')
+    .addTag('Books')
+    .addTag('Genre')
+    .addTag('User')
+    .addTag('Hello')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);

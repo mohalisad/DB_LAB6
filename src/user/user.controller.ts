@@ -1,10 +1,12 @@
-import { Body, Controller, Get, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import CreateUserDto from './dto/create-user.dto';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import GenreEntity from 'src/db/entity/genre.entity';
 import UserEntity from 'src/db/entity/user.entity';
+import BoolResponse from 'src/lib/bool.response';
 
+@ApiTags('User')
 @Controller('users')
 export class UserController {
   constructor(private readonly usersServices: UserService) {}
@@ -22,11 +24,15 @@ export class UserController {
     return this.usersServices.getAllUsers();
   }
 
-//'getBooks()' return all the books which are associated with the user 
-// provided through 'userID' by the request 
-  @ApiResponse({status: 200, type: [UserEntity]})
-  @Get('books')
-  getBooks( @Body('userID', ParseIntPipe) userID: number ) {
-    return this.usersServices.getBooksOfUser(userID);
+  @ApiResponse({status: 200, type: UserEntity})
+  @Put(':id')
+  updateUser(@Param('id') userID: number, @Body() user: CreateUserDto) {
+    return this.usersServices.update(userID, user);
+  }
+
+  @ApiResponse({status: 200, type: BoolResponse})
+  @Delete(':id')
+  removeUser(@Param('id') userID: number) {
+    return this.usersServices.remove(userID);
   }
 }

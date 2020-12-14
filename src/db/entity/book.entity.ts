@@ -15,7 +15,7 @@ export default class BookEntity extends BaseEntity
   @Column({ length: 500 })
   name: string;
 
-  @ApiResponseProperty()
+  @ApiResponseProperty({type: ()=>UserEntity})
   @ManyToOne(type => UserEntity, user => user.books)
   user: UserEntity;
 

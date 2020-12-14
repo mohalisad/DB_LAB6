@@ -1,9 +1,10 @@
 import { Body, Controller, Get, Header, Post, Query } from '@nestjs/common';
 import { INSTANCE_METADATA_SYMBOL } from '@nestjs/core/injector/instance-wrapper';
-import { ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PersonDto } from './dto/person.dto';
 import { HelloService } from './hello.service';
 
+@ApiTags('Hello')
 @Controller('hello')
 export class HelloController {
     constructor(

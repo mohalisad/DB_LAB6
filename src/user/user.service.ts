@@ -3,6 +3,7 @@ import UserEntity from '../db/entity/user.entity';
 import CreateUserDto from './dto/create-user.dto';
 import BookEntity from '../db/entity/book.entity';
 import {getConnection} from "typeorm";
+import BoolResponse from 'src/lib/bool.response';
 
 @Injectable()
 export class UserService {
@@ -21,4 +22,20 @@ export class UserService {
         const user: UserEntity = await UserEntity.findOne({where: {id: userID}, relations: ['books']});
         return user.books;
       }
+    async update(userID: number, userDetails: CreateUserDto): Promise<UserEntity> {
+      const userEntity = await UserEntity.findOne(userID);
+      const {name } = userDetails;
+      userEntity.name = name;
+      await UserEntity.save(userEntity);
+      return userEntity;
+    }
+    async remove(userID: number): Promise<BoolResponse> {
+      const userEntity = await UserEntity.findOne(userID);
+      try {
+        await userEntity.remove();
+      }catch (err) {
+        return new BoolResponse(false);
+      }
+      return new BoolResponse(true);
+    }
 }
