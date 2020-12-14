@@ -13,6 +13,7 @@ async function bootstrap() {
     .addTag('Genre')
     .addTag('User')
     .addTag('Hello')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);

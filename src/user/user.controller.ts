@@ -6,6 +6,7 @@ import GenreEntity from 'src/db/entity/genre.entity';
 import UserEntity from 'src/db/entity/user.entity';
 import BoolResponse from 'src/lib/bool.response';
 import { LocalAuthGuard } from 'src/auth/local-auth.guard';
+import JwtAuthGuard from 'src/auth/jwt-auth.guard';
 
 @ApiTags('User')
 @Controller('users')
@@ -14,7 +15,7 @@ export class UserController {
 
 //'postUser()' will handle the creating of new User
   @ApiBearerAuth()
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiResponse({status: 200, type: UserEntity})
   @Post('post')
   postUser( @Body() user: CreateUserDto) {
@@ -28,7 +29,7 @@ export class UserController {
   }
 
   @ApiBearerAuth()
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiResponse({status: 200, type: UserEntity})
   @Put(':id')
   updateUser(@Param('id') userID: number, @Body() user: CreateUserDto) {
@@ -36,7 +37,7 @@ export class UserController {
   }
 
   @ApiBearerAuth()
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiResponse({status: 200, type: BoolResponse})
   @Delete(':id')
   removeUser(@Param('id') userID: number) {
