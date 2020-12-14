@@ -9,6 +9,7 @@ async function bootstrap() {
     .setTitle('DB LAB6 example')
     .setDescription('DB LAB6 API description')
     .setVersion('1.0')
+    .addTag('Authentication')
     .addTag('Books')
     .addTag('Genre')
     .addTag('User')

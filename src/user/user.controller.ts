@@ -2,10 +2,8 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuard
 import { UserService } from './user.service';
 import CreateUserDto from './dto/create-user.dto';
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
-import GenreEntity from 'src/db/entity/genre.entity';
 import UserEntity from 'src/db/entity/user.entity';
 import BoolResponse from 'src/lib/bool.response';
-import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 import JwtAuthGuard from 'src/auth/jwt-auth.guard';
 
 @ApiTags('User')
@@ -21,7 +19,9 @@ export class UserController {
   postUser( @Body() user: CreateUserDto) {
     return this.usersServices.insert(user);
   }
-// 'getAll()' returns the list of all the existing users in the database
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiResponse({status: 200, type: [UserEntity]})
   @Get()
   getAll() {
