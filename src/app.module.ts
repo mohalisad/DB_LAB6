@@ -6,6 +6,8 @@ import { HelloModule } from './hello/hello.module';
 import { BooksModule } from './books/books.module';
 import { UserModule } from './user/user.module';
 import { GenreModule } from './genre/genre.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './auth_user/users.module';
 import UserEntity from './db/entity/user.entity';
 import BookEntity from './db/entity/book.entity';
 import GenreEntity from './db/entity/genre.entity';
@@ -15,7 +17,9 @@ import GenreEntity from './db/entity/genre.entity';
     TypeOrmModule.forFeature(
       [UserEntity, BookEntity , GenreEntity],
     ),
-    TypeOrmModule.forRoot()
+    TypeOrmModule.forRoot(),
+    AuthModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],
