@@ -10,10 +10,6 @@ async function bootstrap() {
     .setDescription('DB LAB6 API description')
     .setVersion('1.0')
     .addTag('Authentication')
-    .addTag('Books')
-    .addTag('Genre')
-    .addTag('User')
-    .addTag('Hello')
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
