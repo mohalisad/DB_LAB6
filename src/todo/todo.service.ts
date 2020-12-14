@@ -9,16 +9,34 @@ import TaskDto from './dto/task.dto';
 
 @Injectable()
 export class TodoService {
-    async insertCategory(categoryDetails: CategoryDto) {
+    async getAllCategory(): Promise<CategoryEntity[]> {
+        return await CategoryEntity.find();
+    }
 
+    async insertCategory(categoryDetails: CategoryDto) {
+        const categoryEntity: CategoryEntity = CategoryEntity.create();
+        const {name} = categoryDetails;
+        categoryEntity.name = name;
+        await categoryEntity.save();
+        return categoryEntity;
     }
 
     async updateCategory(categoryID: number, categoryDetails: CategoryDto) {
-
+        const categoryEntity: CategoryEntity = await CategoryEntity.findOne(categoryID);
+        const {name} = categoryDetails;
+        categoryEntity.name = name;
+        await categoryEntity.save();
+        return categoryEntity;
     }
 
     async removeCategory(categoryID: number) {
-
+        const categoryEntity: CategoryEntity = await CategoryEntity.findOne(categoryID);
+        try {
+            await categoryEntity.remove();
+        } catch (err) {
+            return new BoolResponse(false);
+        }
+        return new BoolResponse(true);
     }
 
     async getAllTask(): Promise<TaskEntity[]> {
@@ -33,8 +51,8 @@ export class TodoService {
         taskEntity.works = works;
         taskEntity.tags = [];
         for (const tagID of tagIDs) {
-            const genre = await TaskEntity.findOne(tagID);
-            taskEntity.tags.push(genre);
+            const tag = await TagEntity.findOne(tagID);
+            taskEntity.tags.push(tag);
         }
         await taskEntity.save();
         return taskEntity;

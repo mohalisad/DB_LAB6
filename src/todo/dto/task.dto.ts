@@ -7,6 +7,6 @@ export default class TaskDto {
     readonly categoryID: number;
     @ApiProperty({description: 'Required'})
     readonly works: string[];
-    @ApiProperty({description: 'Required'})
+    @ApiProperty({description: 'Required', type: [Number]})
     readonly tagIDs: number[];
 }

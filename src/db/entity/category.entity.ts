@@ -16,5 +16,5 @@ export default class CategoryEntity extends BaseEntity
 
   @ApiResponseProperty({type: () => [TaskEntity]})
   @OneToMany( type => TaskEntity , task => task.category)
-  books: TaskEntity[];
+  tasks: TaskEntity[];
 }

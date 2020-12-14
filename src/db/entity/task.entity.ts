@@ -16,7 +16,7 @@ export default class TaskEntity extends BaseEntity
   name: string;
 
   @ApiResponseProperty({type: ()=>CategoryEntity})
-  @ManyToOne(type => CategoryEntity, user => user.books)
+  @ManyToOne(type => CategoryEntity, user => user.tasks)
   category: CategoryEntity;
 
   @ApiResponseProperty({type: [String]})

@@ -1,9 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import JwtAuthGuard from 'src/auth/jwt-auth.guard';
+import CategoryEntity from 'src/db/entity/category.entity';
 import TagEntity from 'src/db/entity/tag.entity';
 import TaskEntity from 'src/db/entity/task.entity';
 import BoolResponse from 'src/lib/bool.response';
+import CategoryDto from './dto/category.dto';
 import TagDto from './dto/tag.dto';
 import TaskDto from './dto/task.dto';
 import { TodoService } from './todo.service';
@@ -16,6 +18,38 @@ export class TodoController {
 
     @ApiBearerAuth()
     @UseGuards(JwtAuthGuard)
+    @ApiResponse({status: 200, type: [CategoryEntity]})
+    @Get('category')
+    getCategory() {
+        return this.todoService.getAllCategory();
+    }
+
+    @ApiBearerAuth()
+    @UseGuards(JwtAuthGuard)
+    @ApiResponse({status: 200, type: CategoryEntity})
+    @Post('category')
+    postCategory(@Body() category: CategoryDto) {
+        return this.todoService.insertCategory(category);
+    }
+
+    @ApiBearerAuth()
+    @UseGuards(JwtAuthGuard)
+    @ApiResponse({status: 200, type: CategoryEntity})
+    @Put('category/:id')
+    putCategory(@Param('id') categoryID: number, @Body() category: CategoryDto) {
+        return this.todoService.updateCategory(categoryID, category);
+    }
+
+    @ApiBearerAuth()
+    @UseGuards(JwtAuthGuard)
+    @ApiResponse({status: 200, type: BoolResponse})
+    @Delete('category/:id')
+    deleteCategory(@Param('id') categoryID: number) {
+        return this.todoService.removeCategory(categoryID);
+    }
+
+    @ApiBearerAuth()
+    @UseGuards(JwtAuthGuard)
     @ApiResponse({status: 200, type: [TaskEntity]})
     @Get('task')
     getTask() {
@@ -24,7 +58,7 @@ export class TodoController {
 
     @ApiBearerAuth()
     @UseGuards(JwtAuthGuard)
-    @ApiResponse({status: 200, type: TagEntity})
+    @ApiResponse({status: 200, type: TaskEntity})
     @Post('task')
     postTask(@Body() task: TaskDto) {
         return this.todoService.insertTask(task);
