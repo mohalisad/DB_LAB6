@@ -21,12 +21,12 @@ export class GenreController {
     }
     @ApiResponse({status: 200, type: GenreEntity})
     @Put(':id')
-    updateUser(@Param('id') genreID: number, @Body() genre: CreateGenreDto) {
+    updateGenre(@Param('id') genreID: number, @Body() genre: CreateGenreDto) {
       return this.genreServices.update(genreID, genre);
     }
     @ApiResponse({status: 200, type: BoolResponse})
     @Delete(':id')
-    removeUser(@Param('id') userID: number) {
+    removeGenre(@Param('id') userID: number) {
       return this.genreServices.remove(userID);
     }
 }
